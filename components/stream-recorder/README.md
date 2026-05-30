@@ -31,8 +31,21 @@ recorded**. `<video>` capture includes **audio**.
    (page context)  ◀──start/stop/fill commands── [host renderer UI]  ◀──saved──┘
 ```
 
-**1. Webview preload (`webview-preload.js`)** — injected into the browsed page via the
-host window's `will-attach-webview` (host needs `webviewTag: true`):
+**0. Attach the webview preload — exact config (Electron 33).** In the host window's
+`will-attach-webview`, set ALL of these on the passed `webPreferences`, or the preload
+won't get Node/`ipcRenderer`:
+```js
+win.webContents.on('will-attach-webview', (_e, webPreferences) => {
+  webPreferences.preload = path.join(__dirname, 'webview-preload.js');
+  webPreferences.backgroundThrottling = false; // keep background recording alive
+  webPreferences.contextIsolation = false;      // preload needs Node module scope
+  webPreferences.nodeIntegration = false;       // page DOM still has no Node access
+});
+```
+The host window itself needs `webPreferences.webviewTag: true`. With the above, the
+webview preload can `require('electron').ipcRenderer` while the page stays isolated.
+
+**1. Webview preload (`webview-preload.js`)** — runs in the browsed page context:
 
 - **Enumerate**:
   - canvases: `document.querySelectorAll('canvas')`, skip `w<120||h<120`; label by
@@ -42,8 +55,10 @@ host window's `will-attach-webview` (host needs `webviewTag: true`):
   - tag each element with a stable `data-mb-id`; return `{id, kind, label, w, h}`.
 - **Record** (support MANY at once — keep a `Map<id, {recorder, chunks, label}>`, NOT a
   single global recorder):
-  - canvas → `el.captureStream(15)`; video → `el.captureStream()` (includes audio;
-    if `getVideoTracks().length === 0`, it's DRM/EME → report an error, don't proceed).
+  - canvas → `el.captureStream(15)` (always yields a video track). video →
+    `el.captureStream()` (includes audio). **The empty-track check applies to the VIDEO
+    branch only**: if a `<video>` capture has `getVideoTracks().length === 0`, it's
+    DRM/EME → report an error and don't proceed.
   - `new MediaRecorder(stream, { mimeType })`; `recorder.start(2000)` (timeslice so a
     crash loses ≤2 s).
   - on `stop`: build `Blob`, `arrayBuffer()` → `Uint8Array`, send to main with the `id`.
@@ -87,7 +102,10 @@ const mime = prefer.find(m => MediaRecorder.isTypeSupported(m)) || '';
 - Webview → host (`ipc-message`): `streams:list {items:[{id,kind,label,w,h}], recording:[id]}`,
   `record:started {id,mime}`, `record:error {id,message}`.
 - Webview → main (`ipcRenderer.send`): `recording:save {id,label,mime,data:Uint8Array}`.
-- Renderer → main: `recording:active <bool>`, `recording:reveal <file>`.
+- `recording:active <bool>` → main: sent by whoever knows the active/idle truth. The
+  recordings live in the webview preload, so it is cleanest to send this **from the webview
+  preload** (not the host renderer) whenever its sessions map becomes non-empty/empty.
+- Renderer → main: `recording:reveal <file>`.
 - Main → renderer (bridge): `recording:saved {id,file,ext,mime}` | `{id,error}`.
 
 ## Scope / Boundaries ★ (required — read before implementing)

@@ -39,6 +39,11 @@ Core of `main.js`:
 Navigation: wire toolbar buttons to `view.webContents.goBack()` / `goForward()` /
 `reload()` / `loadURL()`.
 
+Address-bar input normalization rule (apply before `loadURL`):
+- already has a scheme (`^[a-z]+://`) or `about:` → use as-is;
+- looks like a domain (`^[\w-]+(\.[\w-]+)+(/...)?$`, or contains `localhost`) → prefix `https://`;
+- otherwise → treat as a search: `https://www.google.com/search?q=<encoded>`.
+
 Minimal acceptance target: launch → load a URL → log in → restart → still logged in →
 general sites browse normally.
 

@@ -91,8 +91,13 @@ passes or fails.**
       built by the architect (with full context) runs the iSeek dashboard and records MP4
       on macOS (`electron@33.4.11`). This proves the *design* works, but is **not** the
       cold-start validation — it was not built by a context-free agent.
-- [ ] **★ Cold-start validation (the real test)** — have a context-free agent build from
-      these docs alone and pass the acceptance checklist. THIS is what validates the docs.
+- [x] **★ Cold-start validation PASSED (2026-05-30)** — a context-free agent, given ONLY
+      this docs repo (no conversation context, no reference build), implemented the full
+      browser (shell + tabs + recorder + password manager), `npm install`'d the
+      doc-specified `electron@33.4.11`, and launched cleanly with the iSeek dashboard
+      loading. It reported 6 documentation gaps; all 6 were fed back into the component
+      docs (see their changelogs). This is the real test of doc completeness — and it held.
+- [ ] User-side interactive acceptance (login-gated items B/C/D) on the cold-built app
 - [ ] Expand more components and recipes
 
 ## License

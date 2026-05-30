@@ -35,7 +35,9 @@ views, just hide them (so background tabs keep running, incl. recording).
 tabs still emit events (e.g. recording):
 - `page-title-updated` → update that tab's title + re-render the strip.
 - `did-navigate` / `did-navigate-in-page` → update that tab's `url`; if it's active, set
-  the address bar; refresh back/forward enabled state.
+  the address bar; refresh back/forward enabled state. **Filter `did-navigate-in-page` on
+  `event.isMainFrame`** — iSeek is a hash-routing SPA, so sub-frame in-page navigations
+  would otherwise spam the address bar with noise.
 - `did-start/stop-loading` → update the status text only when active.
 - `ipc-message` → the stream-recorder messages (`streams:list`, `record:started`,
   `record:error`). Bind with the tab id in closure so you know which tab emitted it.

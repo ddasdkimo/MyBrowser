@@ -69,8 +69,9 @@ remembers and fills.
 **Host UI**: a thin credential bar.
 - `cred:prompt` (from main, via host preload bridge) → "Save password for X? [Save][No]"
   → `cred:save` / `cred:dismiss`.
-- `cred:available` (from the active webview's `ipc-message`) → "Saved login found. [Fill]"
-  → `view.send('cred:fill')`.
+- `cred:available` (from the active webview's `ipc-message`) → "Saved login found.
+  [Fill] [Dismiss]" → `view.send('cred:fill')` / just hide the bar. (Always give a way to
+  dismiss the bar without filling.)
 
 ## Interface contract
 
