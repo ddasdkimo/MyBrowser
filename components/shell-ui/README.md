@@ -89,6 +89,7 @@ Key points that mattered:
 
 - `2026-05-30` — Initial Electron desktop shell component, written to support the
   iseekdashboard POC.
-- `2026-05-30` — **Cold-start reproduction PASSED on macOS** with `electron@33.4.11`.
-  User verified the iSeek monitoring dashboard runs with normal function. No doc gaps
-  hit during this build — the spec was sufficient to reproduce a working browser.
+- `2026-05-30` — **Architect (HOT) build verified on macOS** with `electron@33.4.11`:
+  the iSeek dashboard runs with normal function. NOTE: this was built by the architect
+  with full conversation context, **not** a context-free cold agent — so it validates
+  the *design*, not yet the *doc completeness*. Cold-start validation is pending.

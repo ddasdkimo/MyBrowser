@@ -60,6 +60,10 @@ decisions/           ← decision layer: converges requirements to the right app
   03-iseekdashboard-recon.md  technical recon of the first acceptance target
 acceptance/          ← acceptance layer: turns "runs perfectly" into a checkable list
 components/          ← implementation layer: one self-contained recipe per component
+  shell-ui/               Electron desktop shell (window + webview + persistent login)
+  tabs/                   multi-tab strip on top of the shell
+  stream-recorder/        record canvas/<video> streams to MP4 (multi + background)
+  password-manager/       save/fill logins, encrypted via OS keychain
 recipes/             ← recipe layer: full assembly paths for common vertical scenarios
 ```
 
@@ -83,11 +87,12 @@ passes or fails.**
 - [x] Methodology and repo structure established
 - [x] Technical recon of the first acceptance target
       ([iSeek monitoring dashboard](./acceptance/iseekdashboard.md))
-- [x] **v1 POC reproduced** — a desktop Electron shell built from these docs runs the
-      iSeek monitoring dashboard on macOS (verified 2026-05-30, `electron@33.4.11`)
-- [x] **First feature added & verified** — [stream recorder](./components/stream-recorder/README.md):
-      detect on-page canvas streams and record one to MP4 (macOS, direct MP4, no ffmpeg)
-- [ ] Walk the full acceptance checklist item-by-item with a fully cold agent
+- [x] **v1 architect build (HOT) works** — a desktop Electron shell + stream recorder,
+      built by the architect (with full context) runs the iSeek dashboard and records MP4
+      on macOS (`electron@33.4.11`). This proves the *design* works, but is **not** the
+      cold-start validation — it was not built by a context-free agent.
+- [ ] **★ Cold-start validation (the real test)** — have a context-free agent build from
+      these docs alone and pass the acceptance checklist. THIS is what validates the docs.
 - [ ] Expand more components and recipes
 
 ## License

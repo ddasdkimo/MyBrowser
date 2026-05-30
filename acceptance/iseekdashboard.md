@@ -53,11 +53,11 @@
 
 ## Run log
 
-- **2026-05-30 — v1 POC (Electron `33.4.11`, macOS):** built from these docs by a
-  fresh agent. User verified the browser opens and the **core function works normally** —
-  the Smart Monitoring wall (multi-channel MJPEG + AI overlay) renders and runs. No doc
-  gaps were hit during the build. A full per-item walk (A1–D3) by a strictly-cold agent
-  is still pending and tracked in the README status.
+- **2026-05-30 — Architect (HOT) build (Electron `33.4.11`, macOS):** built by the
+  architect *with* full conversation context (NOT a cold agent). The browser opens and
+  the **core function works normally** — the Smart Monitoring wall (multi-channel MJPEG +
+  AI overlay) renders and runs. This validates the design only. A strictly-cold agent
+  walk of A1–D3 is still pending — that is the real doc-completeness test.
 
 ## Pass / fail recording
 
