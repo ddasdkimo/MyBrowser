@@ -1,0 +1,14 @@
+# This repo holds documentation only — no build artifacts.
+# When an agent assembles a browser inside a clone, keep the build out of git.
+
+node_modules/
+dist/
+out/
+build/
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
