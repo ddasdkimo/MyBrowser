@@ -22,7 +22,12 @@ system WebView. (See `decisions/01-approach-tree.md` and
    - Keep Chromium default networking — the dashboard already shards streams across
      `iseekmjpeg*` subdomains to bypass the per-host 6-connection limit.
 
-2. *(optional, only if needed)* network / header tweaks — **avoid** unless an acceptance
+2. **`components/stream-recorder/` (canvas → MP4)** *(optional feature)*
+   - Detects the canvas-rendered MJPEG channels and records a chosen one.
+   - On macOS, `MediaRecorder` outputs real MP4 directly (no ffmpeg). Recorded video
+     includes the AI overlay boxes since they're drawn on the canvas.
+
+3. *(optional, only if needed)* network / header tweaks — **avoid** unless an acceptance
    item fails. Aggressive connection caps or a merging proxy can choke the MJPEG wall.
 
 ## Key gotchas (from recon)

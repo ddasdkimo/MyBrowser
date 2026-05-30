@@ -85,6 +85,8 @@ passes or fails.**
       ([iSeek monitoring dashboard](./acceptance/iseekdashboard.md))
 - [x] **v1 POC reproduced** — a desktop Electron shell built from these docs runs the
       iSeek monitoring dashboard on macOS (verified 2026-05-30, `electron@33.4.11`)
+- [x] **First feature added & verified** — [stream recorder](./components/stream-recorder/README.md):
+      detect on-page canvas streams and record one to MP4 (macOS, direct MP4, no ffmpeg)
 - [ ] Walk the full acceptance checklist item-by-item with a fully cold agent
 - [ ] Expand more components and recipes
 
