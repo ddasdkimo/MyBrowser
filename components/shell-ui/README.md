@@ -65,9 +65,30 @@ general sites browse normally.
 
 - `electron` — the runtime + bundled Chromium. Pin a specific major version for
   reproducibility. Source: npm `electron`. Scope: desktop only (Mac/Win/Linux).
-  *(Cold agents: record the exact version that passed acceptance here.)*
+  - **Verified: `electron@33.4.11`** (range `^33.0.0`) on macOS — passed the
+    iseekdashboard core acceptance (multi-channel MJPEG wall + AI overlay rendered
+    and ran normally). Node 22.17.1 / npm 10.9.2.
+
+## Minimal file layout that passed (reference)
+
+```
+package.json   # "main": "main.js", devDependency electron ^33
+main.js        # BrowserWindow with webviewTag:true; touch session.fromPartition('persist:main')
+preload.js     # contextIsolation bridge (no privileged API needed for POC)
+ui/index.html  # toolbar (back/forward/reload + address) + <webview partition="persist:main">
+ui/renderer.js # wires toolbar to webview nav events; URL/search normalization
+```
+
+Key points that mattered:
+- `<webview>` with `partition="persist:main"` → login (localStorage `serviceToken`)
+  persists; do not clear storage on close.
+- `webviewTag: true` in the host window's `webPreferences` is required to use `<webview>`.
+- Left default Chromium networking → multi-subdomain MJPEG wall streamed fine.
 
 ## Changelog
 
 - `2026-05-30` — Initial Electron desktop shell component, written to support the
   iseekdashboard POC.
+- `2026-05-30` — **Cold-start reproduction PASSED on macOS** with `electron@33.4.11`.
+  User verified the iSeek monitoring dashboard runs with normal function. No doc gaps
+  hit during this build — the spec was sufficient to reproduce a working browser.

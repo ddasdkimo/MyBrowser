@@ -83,7 +83,9 @@ passes or fails.**
 - [x] Methodology and repo structure established
 - [x] Technical recon of the first acceptance target
       ([iSeek monitoring dashboard](./acceptance/iseekdashboard.md))
-- [ ] v1 POC: have a cold agent produce a desktop shell that passes the iseekdashboard checklist
+- [x] **v1 POC reproduced** — a desktop Electron shell built from these docs runs the
+      iSeek monitoring dashboard on macOS (verified 2026-05-30, `electron@33.4.11`)
+- [ ] Walk the full acceptance checklist item-by-item with a fully cold agent
 - [ ] Expand more components and recipes
 
 ## License
